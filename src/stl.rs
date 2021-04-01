@@ -67,11 +67,11 @@ impl Triangle {
 
 	pub fn to_ascii(&self) -> String {
 		let mut result = String::new();
-		result.push_str(format!("facet normal {}\n", self.normal.to_ascii()));
+		result.push_str(format!("facet normal {}\n", self.normal.to_ascii()).as_str());
 		result.push_str("\touter loop\n");
 		
 		for val in &[self.a, self.b, self.c] {
-			result.push_str(format!("\t\tvertex {}\n", val.to_ascii()));
+			result.push_str(format!("\t\tvertex {}\n", val.to_ascii()).as_str());
 		}
 
 		result.push_str("\tendloop\n");
@@ -98,13 +98,13 @@ impl STL {
 	// https://en.wikipedia.org/wiki/STL_(file_format)
 	pub fn to_ascii(&self) -> String {
 		let mut result = String::new();
-		result.push_str(format!("solid {}", self.name));
+		result.push_str(format!("solid {}", self.name).as_str());
 
 		for triangle in &self.triangles {
-			result.push_str(format!("{}\n", &triangle.to_ascii()));
+			result.push_str(format!("{}\n", &triangle.to_ascii()).as_str());
 		}
 
-		result.push_str(format!("endsolid {}", self.name));
+		result.push_str(format!("endsolid {}", self.name).as_str());
 		result
 	}
 }
