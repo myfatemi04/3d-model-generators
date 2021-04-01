@@ -55,6 +55,22 @@ impl Triangle {
 
 		result
 	}
+
+	pub fn to_binary(&self) -> Vec<u8> {
+		let mut result: Vec<u8> = vec!();
+		
+		for v in &[self.normal, self.a, self.b, self.c] {
+			for b in &v.to_binary() {
+				result.push(*b);
+			}
+		}
+
+		// Attribute byte count
+		result.push(0);
+		result.push(0);
+		
+		result
+	}
 }
 
 pub struct STL {
@@ -81,6 +97,30 @@ impl STL {
 		}
 
 		result.push_str(format!("endsolid {}\n", self.name).as_str());
+		result
+	}
+
+	pub fn to_binary(&self) -> Vec<u8> {
+		let mut result: Vec<u8> = vec!();
+
+		// 80-byte empty header
+		for _ in 0..80 {
+			result.push(0);
+		}
+
+		let triangle_count = self.triangles.len();
+		let triangle_count_bytes = (triangle_count as u32).to_le_bytes();
+
+		for b in &triangle_count_bytes {
+			result.push(*b);
+		}
+
+		for triangle in &self.triangles {
+			for b in triangle.to_binary() {
+				result.push(b);
+			}
+		}
+
 		result
 	}
 }

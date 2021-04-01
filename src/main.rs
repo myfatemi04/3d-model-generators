@@ -3,9 +3,9 @@ pub mod menger_sponge;
 pub mod vector;
 
 fn main() {
-    let model = menger_sponge::generate_generic_sponge(1);
+    let model = menger_sponge::generate_generic_sponge(2);
     let stl = model.to_stl();
-    let text = stl.to_ascii();
+    let text = stl.to_binary();
 
     match std::fs::write("model.stl", text) {
         Ok(_) => {
