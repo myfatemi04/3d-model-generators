@@ -30,4 +30,22 @@ impl Vector {
 	pub fn to_ascii(&self) -> String {
 		format!("{} {} {}", self.x, self.y, self.z)
 	}
+
+	pub fn to_binary(&self) -> [u8; 12] {
+		let x_bytes = (self.x as f32).to_le_bytes();
+		let y_bytes = (self.y as f32).to_le_bytes();
+		let z_bytes = (self.z as f32).to_le_bytes();
+
+		let mut all_bytes: [u8; 12] = [0; 12];
+		let mut i = 0;
+		
+		for group in &[x_bytes, y_bytes, z_bytes] {
+			for j in 0..4 {
+				all_bytes[i] = group[j];
+				i += 1;
+			}
+		}
+		
+		all_bytes
+	}
 }
