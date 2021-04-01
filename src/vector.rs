@@ -5,6 +5,10 @@ pub struct Vector {
 	pub z: f64
 }
 
+pub fn zero() -> Vector {
+	Vector { x: 0.0, y: 0.0, z: 0.0 }
+}
+
 impl Vector {
 	pub fn new(x: f64, y: f64, z: f64) -> Vector {
 		Vector { x, y, z }

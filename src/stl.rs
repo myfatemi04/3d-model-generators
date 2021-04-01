@@ -74,13 +74,13 @@ impl STL {
 	// https://en.wikipedia.org/wiki/STL_(file_format)
 	pub fn to_ascii(&self) -> String {
 		let mut result = String::new();
-		result.push_str(format!("solid {}", self.name).as_str());
+		result.push_str(format!("solid {}\n", self.name).as_str());
 
 		for triangle in &self.triangles {
 			result.push_str(format!("{}\n", &triangle.to_ascii()).as_str());
 		}
 
-		result.push_str(format!("endsolid {}", self.name).as_str());
+		result.push_str(format!("endsolid {}\n", self.name).as_str());
 		result
 	}
 }
