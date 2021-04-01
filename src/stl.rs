@@ -101,7 +101,10 @@ impl STL {
 	}
 
 	pub fn to_binary(&self) -> Vec<u8> {
-		let mut result: Vec<u8> = vec!();
+		// Each triangle is 50 bytes
+		// Headers account for 84 bytes
+
+		let mut result: Vec<u8> = Vec::with_capacity(84 + self.triangles.len());
 
 		// 80-byte empty header
 		for _ in 0..80 {

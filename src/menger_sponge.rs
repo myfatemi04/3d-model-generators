@@ -10,7 +10,7 @@ pub struct MengerSponge {
 
 impl MengerSponge {
 	pub fn new(min_corner: Vector, width: f64) -> MengerSponge {
-		let mut components: Vec<MengerSpongeComponent> = vec!();
+		let mut components: Vec<MengerSpongeComponent> = Vec::with_capacity(27);
 		for _ in 0..27 {
 			components.push(MengerSpongeComponent::Solid);
 		}
