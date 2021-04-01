@@ -1,28 +1,4 @@
-#[derive(Copy, Clone)]
-pub struct Vector {
-	x: f64,
-	y: f64,
-	z: f64
-}
-
-impl Vector {
-	pub fn magnitude(&self) -> f64 {
-		return f64::powf(f64::powi(self.x, 2) + f64::powi(self.y, 2) + f64::powi(self.z, 2), 0.5);
-	}
-
-	pub fn normalize(&self) -> Vector {
-		let magnitude = self.magnitude();
-		return Vector {
-			x: self.x / magnitude,
-			y: self.y / magnitude,
-			z: self.z / magnitude
-		};
-	}
-
-	pub fn to_ascii(&self) -> String {
-		format!("{} {} {}", self.x, self.y, self.z)
-	}
-}
+use crate::vector::Vector;
 
 pub struct Triangle {
 	a: Vector,
