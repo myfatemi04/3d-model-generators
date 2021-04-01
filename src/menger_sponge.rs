@@ -158,6 +158,14 @@ impl MengerSponge {
 	}
 }
 
+pub fn generate_generic_sponge(iterations: usize) -> MengerSponge {
+	let mut sponge = MengerSponge::new(crate::vector::zero(), 10.0);
+	for _ in 0..iterations {
+		sponge.spongeify();
+	}
+	sponge
+}
+
 #[derive(Clone)]
 pub enum MengerSpongeComponent {
 	Empty,

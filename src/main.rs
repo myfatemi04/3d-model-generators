@@ -3,11 +3,11 @@ pub mod menger_sponge;
 pub mod vector;
 
 fn main() {
-    let sponge = menger_sponge::MengerSponge::new(vector::zero(), 10.0);
-    let stl = sponge.to_stl();
+    let model = menger_sponge::generate_generic_sponge(1);
+    let stl = model.to_stl();
     let text = stl.to_ascii();
 
-    match std::fs::write("sponge.stl", text) {
+    match std::fs::write("model.stl", text) {
         Ok(_) => {
             println!("Successfully created STL");
         },
