@@ -33,29 +33,41 @@ impl MengerSponge {
 	pub fn spongeify(&mut self) {
 		// For each solid component, create a new sponge.
 		for i in 0..self.components.len() {
-			// left to right...
-			let x_relative = i % 3;
-			// back to front... (i % 9 isolates the "slice" of the cube we look at)
-			let z_relative = (i % 9) / 3;
-			// top to bottom
-			let y_relative = -((i as i8) / 9);
+			match &mut self.components[i] {
+				MengerSpongeComponent::Empty => {},
+				MengerSpongeComponent::Solid => {
+					// left to right...
+					let x_relative = i % 3;
+					// back to front... (i % 9 isolates the "slice" of the cube we look at)
+					let z_relative = (i % 9) / 3;
+					// top to bottom
+					let y_relative = -((i as i8) / 9);
 
-			// We're using a right-hand coordinate system, so +Z goes towards the camera,
-			// +Y goes up, and +X goes to the left.
+					// We're using a right-hand coordinate system, so +Z goes towards the camera,
+					// +Y goes up, and +X goes to the left.
 
-			let component_size = self.width / 3.0;
+					let component_size = self.width / 3.0;
 
-			let x_absolute = self.start_corner.x + (x_relative as f64) * component_size;
-			let y_absolute = self.start_corner.y + (y_relative as f64) * component_size;
-			let z_absolute = self.start_corner.z + (z_relative as f64) * component_size;
+					let x_absolute = self.start_corner.x + (x_relative as f64) * component_size;
+					let y_absolute = self.start_corner.y + (y_relative as f64) * component_size;
+					let z_absolute = self.start_corner.z + (z_relative as f64) * component_size;
 
-			let start_corner = Vector {
-				x: x_absolute,
-				y: y_absolute,
-				z: z_absolute
-			};
+					let start_corner = Vector {
+						x: x_absolute,
+						y: y_absolute,
+						z: z_absolute
+					};
 
-			self.components[i] = MengerSpongeComponent::Sponge(Box::new(MengerSponge::new(start_corner, component_size)));
+					let sponge = MengerSponge::new(start_corner, component_size);
+					let boxed_sponge = Box::new(sponge);
+					let component = MengerSpongeComponent::Sponge(boxed_sponge);
+
+					self.components[i] = component;
+				},
+				MengerSpongeComponent::Sponge (container) => {
+					(*container).spongeify();
+				}
+			}
 		}
 	}
 }
