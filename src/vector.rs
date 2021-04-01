@@ -6,6 +6,10 @@ pub struct Vector {
 }
 
 impl Vector {
+	pub fn new(x: f64, y: f64, z: f64) -> Vector {
+		Vector { x, y, z }
+	}
+
 	pub fn magnitude(&self) -> f64 {
 		return f64::powf(f64::powi(self.x, 2) + f64::powi(self.y, 2) + f64::powi(self.z, 2), 0.5);
 	}
