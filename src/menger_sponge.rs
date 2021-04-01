@@ -1,3 +1,4 @@
+use crate::stl::STL;
 use crate::vector::Vector;
 
 #[derive(Clone)]
@@ -69,6 +70,11 @@ impl MengerSponge {
 				}
 			}
 		}
+	}
+
+	pub fn to_stl() -> STL {
+		let stl = STL::new(String::from("my_sponge"));
+		stl
 	}
 }
 

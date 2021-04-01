@@ -24,7 +24,7 @@ fn subtract(a: &Vector, b: &Vector) -> Vector {
 }
 
 impl Triangle {
-	pub fn init(a: Vector, b: Vector, c: Vector) -> Triangle {
+	pub fn new(a: Vector, b: Vector, c: Vector) -> Triangle {
 		let side_a = subtract(&b, &a);
 		let side_b = subtract(&b, &c);
 		let normal = cross_product(side_a, side_b);
@@ -58,12 +58,12 @@ impl Triangle {
 }
 
 pub struct STL {
-	name: String,
-	triangles: Vec<Triangle>
+	pub name: String,
+	pub triangles: Vec<Triangle>
 }
 
 impl STL {
-	pub fn init(name: String) -> STL {
+	pub fn new(name: String) -> STL {
 		STL {
 			name,
 			triangles: Vec::new()
