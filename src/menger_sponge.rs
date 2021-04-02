@@ -8,7 +8,9 @@ pub struct MengerSponge {
 	width: f64
 }
 
-impl MengerSponge {
+type CornerGroup = [(u8, u8, u8); 2];
+
+impl MengerSponge {	
 	pub fn new(min_corner: Vector, width: f64) -> MengerSponge {
 		let mut components: Vec<MengerSpongeComponent> = Vec::with_capacity(27);
 		for _ in 0..27 {
@@ -120,34 +122,59 @@ impl MengerSponge {
 
 					// Connect groups of three corners
 					// Each triangle's vertices are clockwise
-					let corner_groups: [(u8, u8, u8); 12] = [
-						// Bottom face
+
+					let bottom: CornerGroup = [
 						(0, 1, 2),
-						(1, 3, 2),
-						
-						// Top face
+						(1, 3, 2)
+					];
+
+					let top: CornerGroup = [
 						(4, 5, 6),
-						(5, 7, 6),
-						
-						// Front face
+						(5, 7, 6)
+					];
+
+					let front: CornerGroup = [
 						(6, 7, 2),
-						(7, 3, 2),
+						(7, 3, 2)
+					];
 						
-						// Back face
+					let back: CornerGroup = [
 						(0, 1, 4),
-						(1, 5, 4),
+						(1, 5, 4)
+					];
 						
-						// Left face
+					let left: CornerGroup = [
 						(4, 6, 0),
-						(6, 2, 0),
+						(6, 2, 0)
+					];
 						
-						// Right face
+					let right: CornerGroup = [
 						(5, 7, 1),
 						(7, 3, 1)
 					];
-					
-					for (a, b, c) in corner_groups.iter() {
-						triangles.push(Triangle::new(corners[*a as usize], corners[*b as usize], corners[*c as usize]));
+
+					if x_relative == 2 || (i % 6 == 3) { // or i in [3, 9, 15, 21]
+						MengerSponge::add_corner_group(triangles, corners, &right);
+					}
+
+					if x_relative == 0 || (i % 6 == 5) { // or i in [5, 11, 17, 23]
+						MengerSponge::add_corner_group(triangles, corners, &left);
+					}
+
+					if y_relative == 2 || ((i % 2 == 1) && (i < 8)) { // or i in [1, 3, 5, 7]
+						MengerSponge::add_corner_group(triangles, corners, &top);
+					}
+
+					if y_relative == 0 || ((i % 2 == 1) && (i > 18)) { // or i in [19, 21, 23, 25]
+						MengerSponge::add_corner_group(triangles, corners, &bottom);
+					}
+
+					if z_relative == 2 || (i == 1 || i == 9 || i == 11 || i == 19) { // or i in [1, 9, 11, 19]
+						MengerSponge::add_corner_group(triangles, corners, &front);
+					}
+
+					if z_relative == 0 || (i == 7 || i == 15 || i == 17 || i == 25) { // or i in [7, 15, 17, 25]
+						MengerSponge::add_corner_group(triangles, corners, &back);
 					}
 				},
 				MengerSpongeComponent::Sponge(boxed_sponge) => {
@@ -155,6 +182,12 @@ impl MengerSponge {
 					sponge.add_triangles(triangles);
 				}
 			}
+		}
+	}
+
+	fn add_corner_group(triangles: &mut Vec<Triangle>, corners: [Vector; 8], group: &CornerGroup) {
+		for (a, b, c) in group.iter() {
+			triangles.push(Triangle::new(corners[*a as usize], corners[*b as usize], corners[*c as usize]));
 		}
 	}
 }

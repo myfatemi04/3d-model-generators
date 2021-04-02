@@ -25,20 +25,15 @@ fn subtract(a: &Vector, b: &Vector) -> Vector {
 
 impl Triangle {
 	pub fn new(a: Vector, b: Vector, c: Vector) -> Triangle {
-		let side_a = subtract(&c, &b);
-		let side_b = subtract(&b, &a);
-		let normal = cross_product(side_a, side_b);
+		let side_a = subtract(&b, &a);
+		let side_b = subtract(&c, &b);
+		let normal = cross_product(side_a, side_b).normalize();
 
-		Triangle {
-			a,
-			b,
-			c,
-			normal: normal.normalize()
-		}
+		Triangle { a, b, c, normal }
 	}
 
 	pub fn normal(&self) -> Vector {
-		return self.normal;
+		self.normal
 	}
 
 	pub fn to_ascii(&self) -> String {
