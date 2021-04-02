@@ -25,8 +25,8 @@ fn subtract(a: &Vector, b: &Vector) -> Vector {
 
 impl Triangle {
 	pub fn new(a: Vector, b: Vector, c: Vector) -> Triangle {
-		let side_a = subtract(&b, &a);
-		let side_b = subtract(&b, &c);
+		let side_a = subtract(&c, &b);
+		let side_b = subtract(&b, &a);
 		let normal = cross_product(side_a, side_b);
 
 		Triangle {
@@ -101,15 +101,8 @@ impl STL {
 	}
 
 	pub fn to_binary(&self) -> Vec<u8> {
-		// Each triangle is 50 bytes
-		// Headers account for 84 bytes
-
-		let mut result: Vec<u8> = Vec::with_capacity(84 + self.triangles.len());
-
 		// 80-byte empty header
-		for _ in 0..80 {
-			result.push(0);
-		}
+		let mut result: Vec<u8> = vec![0; 80];
 
 		let triangle_count = self.triangles.len();
 		let triangle_count_bytes = (triangle_count as u32).to_le_bytes();

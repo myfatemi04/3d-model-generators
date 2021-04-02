@@ -119,30 +119,31 @@ impl MengerSponge {
 					];
 
 					// Connect groups of three corners
+					// Each triangle's vertices are clockwise
 					let corner_groups: [(u8, u8, u8); 12] = [
 						// Bottom face
 						(0, 1, 2),
-						(1, 2, 3),
+						(1, 3, 2),
 						
 						// Top face
 						(4, 5, 6),
-						(5, 6, 7),
+						(5, 7, 6),
 						
 						// Front face
 						(6, 7, 2),
-						(7, 2, 3),
+						(7, 3, 2),
 						
 						// Back face
 						(0, 1, 4),
-						(1, 4, 5),
+						(1, 5, 4),
 						
 						// Left face
 						(4, 6, 0),
-						(6, 0, 2),
+						(6, 2, 0),
 						
 						// Right face
 						(5, 7, 1),
-						(7, 1, 3)
+						(7, 3, 1)
 					];
 					
 					for (a, b, c) in corner_groups.iter() {
